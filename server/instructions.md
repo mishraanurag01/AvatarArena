@@ -13,7 +13,7 @@ This API provides endpoints for user registration, login, password reset, change
 4. Open the frontend directory in your code editor.
 5. Ensure that your frontend application (index.html) is set to run on port 5500 using live server.
 
-## Postman Collection
+## Postman Collection 
 
 A Postman collection is included in the backend folder for testing the API endpoints.
 
