@@ -159,7 +159,8 @@ class UserController {
   
       if (existingGameProfile) {
         // If game profile exists, update it
-        await existingGameProfile.updateOne({ name, username, homeState, country, dob, game, role, status, team });
+        // await existingGameProfile.updateOne({ name, gameUserId, homeState, country, dob, game, role, status, team });
+        return res.json({"message":"username already exists"});
       } else {
         // If game profile does not exist, create a new one
         const newGameProfile = new GameProfile({ gameUserId, name, username, homeState, country, dob, game, role, status, team });
