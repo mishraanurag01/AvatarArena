@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const UserLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // navigate
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8000/api/user/login', {
+      const data = await fetch('http://localhost:8000/api/user/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -16,17 +20,25 @@ const Login = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      if (response.status === 422) {
+      const response = await data.json();
+      console.log(response);
+
+      if (data.status === 422) {
         // Login successful, redirect or perform desired actions
         alert('all fields are required');
-      } else if(response.status === 400) {
+      } else if(data.status === 400) {
         alert('Login failed! You are not a registered User');
       }
-      else if(response.status === 406){
+      else if(data.status === 406){
         alert("Email or password is not Valid")
       }
       else{
+        localStorage.setItem('token', response.token);
+        const num = localStorage.getItem('token');
+        if(num) console.log("token is set:", num);
+        else console.log("token not set");
         alert("login successful")
+        navigate("/profile")
       }
     } catch (error) {
       console.error('An error occurred while logging in:', error);
@@ -61,8 +73,9 @@ const Login = () => {
         </div>
         <button type="submit" className="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600">Login</button>
       </form>
+      <p>Not a registered User?? <Link className='text-blue-600' to="/" >Register</Link></p>
     </div>
   );
 };
 
-export default Login;
+export default UserLogin;

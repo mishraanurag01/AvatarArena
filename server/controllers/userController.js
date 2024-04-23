@@ -2,6 +2,8 @@ import UserModel from '../models/User.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import transporter from '../config/emailConfig.js'
+import UserGameProfile from '../models/userGameProfile.js';
+import GameProfile from '../models/gameProfile.js';
 
 class UserController {
   static userRegistration = async (req, res) => {
@@ -53,6 +55,7 @@ class UserController {
           if ((user.email === email) && isMatch) {
             // Generate JWT Token
             const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
+            console.log("token:", token);
             res.status(200).send({ "status": "success", "message": "Login Success", "token": token })
           } else {
             res.status(406).send({ "status": "failed", "message": "Email or Password is not Valid" })
@@ -136,6 +139,42 @@ class UserController {
     } catch (error) {
       console.log(error)
       res.send({ "status": "failed", "message": "Invalid Token" })
+    }
+  }
+
+  static CreateUserProfile = async (req, res) => {
+    try {
+      const { userId, gameUserId, name, username, homeState, country, dob, game, role, status, team } = req.body;
+  
+      // Check if UserGameProfile document exists for the user
+      let userProfile = await UserGameProfile.findOne({ user: userId });
+  
+      if (!userProfile) {
+        // If UserGameProfile document does not exist, create a new one
+        userProfile = new UserGameProfile({ user: userId, gameProfiles: [] });
+      }
+  
+      // Check if game profile already exists for the user
+      const existingGameProfile = await GameProfile.findOne({ gameUserId });
+  
+      if (existingGameProfile) {
+        // If game profile exists, update it
+        await existingGameProfile.updateOne({ name, username, homeState, country, dob, game, role, status, team });
+      } else {
+        // If game profile does not exist, create a new one
+        const newGameProfile = new GameProfile({ gameUserId, name, username, homeState, country, dob, game, role, status, team });
+        await newGameProfile.save();
+        // Push the new game profile's ObjectId to the user's gameProfiles array
+        userProfile.gameProfiles.push(newGameProfile._id);
+      }
+  
+      // Save the UserGameProfile document
+      await userProfile.save();
+      console.log({ message: 'Game profile saved successfully'});
+      res.status(201).json({ message: 'Game profile saved successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
     }
   }
 }
