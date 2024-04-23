@@ -155,7 +155,7 @@ class UserController {
       }
   
       // Check if game profile already exists for the user
-      const existingGameProfile = await GameProfile.findOne({ gameUserId });
+      const existingGameProfile = await GameProfile.findOne({ username });
   
       if (existingGameProfile) {
         // If game profile exists, update it
