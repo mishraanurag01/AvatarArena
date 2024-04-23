@@ -2,13 +2,16 @@ import UserModel from '../models/User.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import transporter from '../config/emailConfig.js'
+import UserGameProfile from '../models/userGameProfile.js';
+import GameProfile from '../models/gameProfile.js';
 
 class UserController {
   static userRegistration = async (req, res) => {
     const { name, email, password, password_confirmation, tc } = req.body
     const user = await UserModel.findOne({ email: email })
     if (user) {
-      res.send({ "status": "failed", "message": "Email already exists" })
+      console.log(user);
+      res.status(409).send({ "status": "failed", "message": "Email already exists" })
     } else {
       if (name && email && password && password_confirmation && tc) {
         if (password === password_confirmation) {
@@ -25,16 +28,19 @@ class UserController {
             const saved_user = await UserModel.findOne({ email: email })
             // Generate JWT Token
             const token = jwt.sign({ userID: saved_user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
-            res.status(201).send({ "status": "success", "message": "Registration Success", "token": token })
+            res.status(200).send({ "status": "success", "message": "Registration Success", "token": token })
+            console.log("registration success!!")
           } catch (error) {
             console.log(error)
-            res.send({ "status": "failed", "message": "Unable to Register" })
+            res.status(401).send({ "status": "failed", "message": "Unable to Register" })
+            console.log("Unable to register!!")
           }
         } else {
           res.send({ "status": "failed", "message": "Password and Confirm Password doesn't match" })
+          console.log("Password and Confirm Password doesn't match")
         }
       } else {
-        res.send({ "status": "failed", "message": "All fields are required" })
+        res.status(422).send({ "status": "failed", "message": "All fields are required" })
       }
     }
   }
@@ -49,15 +55,16 @@ class UserController {
           if ((user.email === email) && isMatch) {
             // Generate JWT Token
             const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
-            res.send({ "status": "success", "message": "Login Success", "token": token })
+            console.log("token:", token);
+            res.status(200).send({ "status": "success", "message": "Login Success", "token": token })
           } else {
-            res.send({ "status": "failed", "message": "Email or Password is not Valid" })
+            res.status(406).send({ "status": "failed", "message": "Email or Password is not Valid" })
           }
         } else {
-          res.send({ "status": "failed", "message": "You are not a Registered User" })
+          res.status(400).send({ "status": "failed", "message": "You are not a Registered User" })
         }
       } else {
-        res.send({ "status": "failed", "message": "All Fields are Required" })
+        res.status(422).send({ "status": "failed", "message": "All Fields are Required" })
       }
     } catch (error) {
       console.log(error)
@@ -132,6 +139,43 @@ class UserController {
     } catch (error) {
       console.log(error)
       res.send({ "status": "failed", "message": "Invalid Token" })
+    }
+  }
+
+  static CreateUserProfile = async (req, res) => {
+    try {
+      const { userId, gameUserId, name, username, homeState, country, dob, game, role, status, team } = req.body;
+  
+      // Check if UserGameProfile document exists for the user
+      let userProfile = await UserGameProfile.findOne({ user: userId });
+  
+      if (!userProfile) {
+        // If UserGameProfile document does not exist, create a new one
+        userProfile = new UserGameProfile({ user: userId, gameProfiles: [] });
+      }
+  
+      // Check if game profile already exists for the user
+      const existingGameProfile = await GameProfile.findOne({ username });
+  
+      if (existingGameProfile) {
+        // If game profile exists, update it
+        // await existingGameProfile.updateOne({ name, gameUserId, homeState, country, dob, game, role, status, team });
+        return res.json({"message":"username already exists"});
+      } else {
+        // If game profile does not exist, create a new one
+        const newGameProfile = new GameProfile({ gameUserId, name, username, homeState, country, dob, game, role, status, team });
+        await newGameProfile.save();
+        // Push the new game profile's ObjectId to the user's gameProfiles array
+        userProfile.gameProfiles.push(newGameProfile._id);
+      }
+  
+      // Save the UserGameProfile document
+      await userProfile.save();
+      console.log({ message: 'Game profile saved successfully'});
+      res.status(201).json({ message: 'Game profile saved successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
     }
   }
 }
