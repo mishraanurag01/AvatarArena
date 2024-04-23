@@ -168,9 +168,9 @@ class UserController {
         // Push the new game profile's ObjectId to the user's gameProfiles array
         userProfile.gameProfiles.push(newGameProfile._id);
       }
-  
       // Save the UserGameProfile document
       await userProfile.save();
+      res.send({userId, gameUserId, name, username, homeState, country, dob, game, role, status, team},{"message": "Game Profile Changed successfully" })
       console.log({ message: 'Game profile saved successfully'});
       res.status(201).json({ message: 'Game profile saved successfully' });
     } catch (error) {

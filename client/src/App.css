@@ -1,3 +1,37 @@
+.info{
+  align-items: center;
+}
+.location{
+  align-items: center;
+  display:flex;
+  flex-direction: row;
+}
+.info{
+  align-items: flex-end;
+  margin-right: 800px;
+}
+.bold{
+  font-weight: bolder;
+}
+.line{
+  font-size: 25px;
+  margin: 17px;
+  display: flex;
+  flex-direction: row;
+}
+.card{
+  display:flex;
+  flex-direction: cloumn;
+  border-radius: 20px;
+  margin-top:80px;
+  height: 30vh;
+  width:80vw;
+  background-color: rgb(28, 31, 31);
+}
+.part2{
+  margin-left: 800px;
+  width: 20vw;
+}
 
 /* #root {
   max-width: 1280px;
