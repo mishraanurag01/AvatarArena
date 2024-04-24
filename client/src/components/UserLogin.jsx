@@ -38,7 +38,7 @@ const UserLogin = () => {
         if(num) console.log("token is set:", num);
         else console.log("token not set");
         alert("login successful")
-        navigate("/profile")
+        navigate("/dashboard")
       }
     } catch (error) {
       console.error('An error occurred while logging in:', error);

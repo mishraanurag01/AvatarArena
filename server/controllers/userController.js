@@ -178,6 +178,35 @@ class UserController {
       res.status(500).json({ message: 'Internal server error' });
     }
   }
+
+  static getGameProfile = async (req, res) => {
+    const { gameProfileId } = req.query;
+    // console.log(gameProfileId)
+
+    const existingGameProfile = await GameProfile.findById(gameProfileId);
+
+    if (!existingGameProfile) {
+        res.status(404).send({ message: "Game profile not found" });
+        return;
+    }
+
+    res.send(existingGameProfile);
+  }
+
+
+  static getUserGameProfiles = async (req, res) =>{
+    const { userId } = req.body;
+  
+    // Check if UserGameProfile document exists for the user
+    let userProfile = await UserGameProfile.findOne({ user: userId });
+
+    if(!userProfile){
+      res.send({"message":"no profile exists"});
+      return;
+    }
+
+    res.send(userProfile);
+  }
 }
 
 export default UserController
