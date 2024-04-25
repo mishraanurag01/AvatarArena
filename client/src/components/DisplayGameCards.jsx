@@ -59,7 +59,7 @@ const DisplayGameCards = () => {
 
     return (
         <div className='px-[4rem]'>
-            <div className='text-5xl text-center pt-[3rem] pb-[4rem]' >Game Cards</div>
+            <div className='text-5xl text-center pt-[5rem] pb-[4rem]' >Game Cards</div>
             <div className='flex gap-[2rem] flex-wrap cursor-pointer'>
                 {userProfile && userProfile.length > 0 ? (
                     userProfile.map((profile, index )=> (
