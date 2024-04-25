@@ -88,7 +88,7 @@ const MakeUserProfile = () => {
 
 
     return (
-        <main className='flex flex-col px-[5rem]'>
+        <main className='flex flex-col px-[5rem] pt-[4rem]'>
             <h1 className='text-6xl text-center py-5'>User Profile</h1>
             {/* <div className="flex flex-col py-3 profile ">
                 <h1 className='text-4xl text-left underline'>Profile Details</h1>

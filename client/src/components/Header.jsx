@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -17,10 +18,12 @@ const Header = () => {
                     AvatarArena
                 </div>
                 <div className="nav-items text-[1.2rem]">
-                    <ul className='flex gap-[2rem] cursor-pointer '>
-                        <li className='hover:text-gray-500 hover:underline transition-all duration-300 ease-in-out'>Profile</li>
-                        <li className='hover:text-gray-500 hover:underline transition-all duration-300 ease-in-out'>Dashboard</li>
-                    </ul>
+                    {isLoggedIn &&
+                        <ul className='flex gap-[2rem] cursor-pointer '>
+                            <Link to={"/profile"}><li className='hover:text-gray-500 hover:underline transition-all duration-300 ease-in-out'>Profile</li></Link>
+                            <Link to={"/dashboard"}><li className='hover:text-gray-500 hover:underline transition-all duration-300 ease-in-out'>Dashboard</li></Link>
+                        </ul>
+                    }
                 </div>
                 <div className='singup-login text-[1.2rem]'>
                     <ul className='cursor-pointer'>
