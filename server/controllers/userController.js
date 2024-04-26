@@ -10,7 +10,7 @@ class UserController {
     const { name, email, password, password_confirmation, tc } = req.body
     const user = await UserModel.findOne({ email: email })
     if (user) {
-      console.log(user);
+      // console.log(user);
       res.status(409).send({ "status": "failed", "message": "Email already exists" })
     } else {
       if (name && email && password && password_confirmation && tc) {
@@ -29,15 +29,15 @@ class UserController {
             // Generate JWT Token
             const token = jwt.sign({ userID: saved_user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
             res.status(200).send({ "status": "success", "message": "Registration Success", "token": token })
-            console.log("registration success!!")
+            // console.log("registration success!!")
           } catch (error) {
             console.log(error)
             res.status(401).send({ "status": "failed", "message": "Unable to Register" })
-            console.log("Unable to register!!")
+            // console.log("Unable to register!!")
           }
         } else {
           res.send({ "status": "failed", "message": "Password and Confirm Password doesn't match" })
-          console.log("Password and Confirm Password doesn't match")
+          // console.log("Password and Confirm Password doesn't match")
         }
       } else {
         res.status(422).send({ "status": "failed", "message": "All fields are required" })
@@ -55,7 +55,7 @@ class UserController {
           if ((user.email === email) && isMatch) {
             // Generate JWT Token
             const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
-            console.log("token:", token);
+            // console.log("token:", token);
             res.status(200).send({ "status": "success", "message": "Login Success", "token": token })
           } else {
             res.status(406).send({ "status": "failed", "message": "Email or Password is not Valid" })
@@ -100,7 +100,7 @@ class UserController {
         const secret = user._id + process.env.JWT_SECRET_KEY
         const token = jwt.sign({ userID: user._id }, secret, { expiresIn: '15m' })
         const link = `http://127.0.0.1:5500/frontend/?id=${user._id}&token=${token}`
-        console.log(link)
+        // console.log(link)
         // Send Email
         let info = await transporter.sendMail({
           from: process.env.EMAIL_FROM,
@@ -171,7 +171,7 @@ class UserController {
   
       // Save the UserGameProfile document
       await userProfile.save();
-      console.log({ message: 'Game profile saved successfully'});
+      // console.log({ message: 'Game profile saved successfully'});
       res.status(201).json({ message: 'Game profile saved successfully' });
     } catch (error) {
       console.error(error);

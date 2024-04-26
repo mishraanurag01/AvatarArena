@@ -33,24 +33,24 @@ const Register = () => {
 
             
             if (response.status === 409) {
-                console.log('user already exists');
+                // console.log('user already exists');
                 alert("uuser already exists");
                 setEmail('');
             }
             else if(response.status === 422){
                 alert('all fields are required');
-                console.log("all fields are required");
+                // console.log("all fields are required");
             }
             else if(response.ok){
                 alert("successful registration");
                 navigate("/login");
             }
             else {
-                console.error('Registration failed');
+                // console.error('Registration failed');
                 alert('Registration failed');
             }
         } catch (error) {
-            console.error('Registration failed:', error);
+            // console.error('Registration failed:', error);
             alert('Registration failed:', error);
         }
     };

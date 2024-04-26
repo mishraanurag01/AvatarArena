@@ -17,12 +17,12 @@ const MakeUserProfile = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log({name, username, homeState, country, dob, game, role, status, team});
+        // console.log({name, username, homeState, country, dob, game, role, status, team});
       };
 
     const handleProfileCreation = async (e) => {
         e.preventDefault();
-        console.log({name, username, homeState, country, dob, game, role, status, team});
+        // console.log({name, username, homeState, country, dob, game, role, status, team});
         try {
             // Retrieve token from local storage
             const token = localStorage.getItem('token');
@@ -47,7 +47,7 @@ const MakeUserProfile = () => {
             const userData = await response.json();
             const userId = userData.user._id;
 
-            console.log(userData.user._id);
+            // console.log(userData.user._id);
 
             // Now you have the userId, you can use it to make a request to the profile endpoint
             // Replace 'profile-url' with the actual URL of your profile endpoint
@@ -77,7 +77,7 @@ const MakeUserProfile = () => {
             }
 
             const profileData = await profileResponse.json();
-            console.log('Profile details saved:', profileData);
+            // console.log('Profile details saved:', profileData);
 
         } catch (error) {
             console.error('Error:', error);
