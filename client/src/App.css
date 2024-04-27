@@ -1,3 +1,58 @@
+.one{
+  height: 100vh;
+  background-color: rgb(9, 2, 33);
+  color: white;
+}
+.intro{
+  width: 40vw;
+  text-align: right;
+  font-size: 50px;
+  margin: 0px 0px 0px -100px ;
+}
+.intro h1{
+  margin-top: 200px;
+}
+.intro h2{
+  font-size: 25px;
+}
+.in{
+  margin-top: 50px;
+}
+.country{
+  margin-left: 470px;
+  display: flex;
+}
+.card{
+  display: flex;
+  width: 80vw;
+  margin: 20px 0px 0px 170px ;
+  height: 40vh;
+  border-radius: 20px;
+  background-color: rgb(21, 21, 21);
+}
+.cright{
+  width: 20vw;
+  margin-top: 50px;
+  margin-left: 45vw;
+}
+
+.line{
+  font-size:20px ;
+  font-weight: 900;
+  display: flex;
+  flex-direction: row;
+  margin: 25px 0px 10px 50px ;
+}
+.line h4{
+  font-weight: 15px;
+  font-weight: lighter;
+}
+.small{
+  font-weight: 200;
+}
+
+
+
 /* #root {
   max-width: 1280px;
   margin: 0 auto;

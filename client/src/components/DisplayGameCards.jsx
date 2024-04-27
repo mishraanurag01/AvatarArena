@@ -1,5 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import '../App.css'
 
 const DisplayGameCards = () => {
     const [userProfile, setUserProfile] = useState(null);
@@ -58,18 +60,20 @@ const DisplayGameCards = () => {
     // console.log(userProfile);
 
     return (
-        <div className='px-[4rem]'>
+        <div className='one px-[4rem]'>
             <div className='text-5xl text-center pt-[5rem] pb-[4rem]' >Game Cards</div>
             <div className='flex gap-[2rem] flex-wrap cursor-pointer'>
                 {userProfile && userProfile.length > 0 ? (
                     userProfile.map((profile, index )=> (
-                        <div key={index+1} className="py-5 px-7 bg-[#ddd] w-max mb-[2rem] rounded-xl">
-                            <div className="flex items-center gap-[1rem]">
+                    // <Link to='/ex' state={{th:`${profile.name}`}}>
+                    <Link to='/display' state={{th:profile}}>
+                        <div key={index+1} className="py-9 px-20 bg-blue-900 w-max mb-[4rem] rounded-xl">
+                            <div className="flex items-center gap-[1rem] ">
                                 <div className='w-[3rem] h-[3rem] rounded-[50%] bg-gray-600 hover:scale-105 transition-transform'>
                                     <img src="" alt="" />
                                 </div>
                                 <div>
-                                    <h1 className='text-2xl' >{profile.name}</h1>
+                                    <h1 className='text-5xl' >{profile.name}</h1>
                                     <h2>{profile.username}</h2>
                                 </div>
                             </div>
@@ -78,15 +82,16 @@ const DisplayGameCards = () => {
                                 <p>{profile.country}</p>
                             </div>
                             <div className='pl-2'>
-                                <p><span className='text-gray-700' >Game : </span> <span className='text-black pl-1' >{profile.game}</span></p>
+                                <p><span className='text-white-700' >Game : </span> <span className='text pl-1' >{profile.game}</span></p>
                             </div>
                             <div className='pl-2'>
-                                <p><span className='text-gray-700' >Role : </span> <span className='text-black pl-1' >{profile.role}</span></p>
+                                <p><span className='text-white-700' >Role : </span> <span className='text pl-1' >{profile.role}</span></p>
                             </div>
                             <div className='pl-2'>
-                                <p><span className='text-gray-700' >Status : </span> <span className='text-black pl-1' >{profile.status}</span></p>
+                                <p><span className='text-white-700' >Status : </span> <span className='text pl-1' >{profile.status}</span></p>
                             </div>
                         </div>
+                    </Link>
                     ))
                 ):
                 (
