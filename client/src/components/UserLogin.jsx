@@ -21,7 +21,7 @@ const UserLogin = () => {
       });
 
       const response = await data.json();
-      console.log(response);
+      // console.log(response);
 
       if (data.status === 422) {
         // Login successful, redirect or perform desired actions
@@ -35,8 +35,8 @@ const UserLogin = () => {
       else{
         localStorage.setItem('token', response.token);
         const num = localStorage.getItem('token');
-        if(num) console.log("token is set:", num);
-        else console.log("token not set");
+        // if(num) console.log("token is set:", num);
+        // else console.log("token not set");
         alert("login successful")
         navigate("/dashboard")
       }
